@@ -1,1 +1,16 @@
 cd /c/Users/'Serhii Kushchenko'/Documents/PythonScripts/stocks_site
+
+git config --global user.email "send2kust@gmail.com"
+git config --global user.name "Serhii Kushchenko"
+
+
+echo "geckodriver.log" >> .gitignore
+echo "__pycache__" >> .gitignore
+echo "*.pyc" >> .gitignore
+echo "myapp/.env" >> .gitignore
+
+git add .
+git add .gitignore
+git rm -r --cached '*.pyc'
+git rm -r --cached '*/__pycache__/*'
+git rm -r --cached myapp/.env
