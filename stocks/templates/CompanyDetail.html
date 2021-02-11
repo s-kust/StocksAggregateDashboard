@@ -1,0 +1,58 @@
+{% extends '_base.html' %}
+{% load mathfilters %}
+{% block title %}{{dataTicker.ticker}} Company Data{% endblock title %}
+{% block content %}
+<h1>{{dataTicker.ticker}} {{dataTicker.shortname}} Company Data</h1>
+<p>{{dataTicker.shortname}} is a company from the {{dataTicker.industry}} industry, {{dataTicker.ticker.sector}} sector.</p>
+<p><a href="{% url 'home' %}">Back to home page</a></p>
+<p><a href="{% url 'sectordetail' dataTicker.industry.sector.id %}">Back to {{dataTicker.industry.sector}} sector</a></p>
+<p><a href="{% url 'industrydetailleverage' dataTicker.industry.id %}">Back to {{dataTicker.industry}} industry</a></p>
+<p>{{dataTicker.ticker}} {{dataTicker.shortname}} indicators:</p>
+<ul>
+<li>Forward P/E: {{dataTicker.forwardpe}}</li>
+<li>Dividend yield: {{dataTicker.dividendyield}}</li>
+<li>Beta: {{dataTicker.beta}}</li>
+</ul>
+<h2>{{dataTicker.ticker}} recent years financial data</h2>
+<table>
+  <tr>
+    <th>Year End Date</th>
+	<th>Total Revenue</th>
+	<th>Margin</th>
+	<th>Leverage</th>
+	<th>Liquidity</th>
+	<th>Cash Flow Positive</th>
+	<th>Cash Flow > Income</th>
+	<th>No Stock Issuance</th>
+  </tr>
+{% for record in dataTicker.resultsyearly_set.all %}
+  <tr>
+	<td style="text-align:center">{{record.enddate}}</td>
+	<td style="text-align:center">{{record.totalrevenue|floatformat:"-2"}}</td>
+	<td style="text-align:center">{{record.margin|floatformat:"-2"}}</td>
+	<td style="text-align:center">{{record.leverage|floatformat:"-2"}}</td>
+	<td style="text-align:center">{{record.liquidity|floatformat:"-2"}}</td>
+	<td style="text-align:center">{% if record.cfpositive == 1 %} Yes {% else %} No {% endif %}</td>
+	<td style="text-align:center">{% if record.cfaboveincome == 1 %} Yes {% else %} No {% endif %}</td>
+	<td style="text-align:center">{% if record.nostockissuance == 1 %} Yes {% else %} No {% endif %}</td>
+  </tr>
+{% endfor %}
+</table>
+<p>Here it is easy to see how {{dataTicker.shortname}} revenue, leverage, and margin change over the years. If you discover the cash flow problems in {{dataTicker.ticker}}, it is an alarming signal, even if the revenue and margin are good.</p>
+<h2>{{dataTicker.shortname}} CEO Yearly Payment Data</h2>
+<table>
+  <tr>
+    <th>Date</th>
+	<th>CEO Yearly Payment</th>
+	<th>Market Capitalization</th>
+  </tr>
+{% for record in dataTicker.bosscompensations_set.all %}
+  <tr>
+	<td style="text-align:center">{{record.date}}</td>
+	<td style="text-align:center">{{record.paymentsum|floatformat:"-2"}}</td>
+	<td style="text-align:center">{{record.marketcap|floatformat:"-2"}}</td>
+  </tr>
+{% endfor %}
+</table>
+<p>You can compare the {{dataTicker.ticker}} {{dataTicker.shortname}} company with its peers on the {{dataTicker.industry}} industry page <a href="{% url 'industrydetailleverage' dataTicker.industry.id %}">here</a>.</p>
+{% endblock content %}

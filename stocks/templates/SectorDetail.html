@@ -1,0 +1,25 @@
+<!-- templates/SectorDetail.html -->
+{% extends '_base.html' %}
+{% block title %}{{sector.sector}} Sectors Industries Data{% endblock title %}
+{% block content %}
+<h1>{{sector.sector}} Sectors Industries Data</h1>
+<a href="{% url 'home' %}">Back to sectors list</a>
+<table>
+  <tr>
+    <th>Industry</th>
+    <th>Avg. Margin</th>
+	<th>Avg. Leverage</th>
+	<th>Avg. Dividend Yield</th>
+	<th>Avg. Assets Turnover</th>
+  </tr>
+{% for industry in sector.industries_set.all %}
+  <tr>
+    <td><a href="{% url 'industrydetailleverage' industry.id %}">{{industry.industry}}</a></td>
+    <td style="text-align:center">{{industry.avg_margin|floatformat:"-2"}}</td>
+	<td style="text-align:center">{{industry.avg_leverage|floatformat:"-2"}}</td>
+	<td style="text-align:center">{{industry.avg_dividend_yield|floatformat:"-4"}}</td>
+	<td style="text-align:center">{{industry.avg_assets_turnover|floatformat:"-4"}}</td>
+  </tr>
+{% endfor %}
+</table>
+{% endblock content %}

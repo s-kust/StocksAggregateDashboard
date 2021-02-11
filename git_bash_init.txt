@@ -1,0 +1,1 @@
+cd /c/Users/'Serhii Kushchenko'/Documents/PythonScripts/stocks_site

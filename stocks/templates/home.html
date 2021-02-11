@@ -1,0 +1,27 @@
+<!-- templates/home.html -->
+{% extends '_base.html' %}
+{% block title %}Stocks and Sectors Data: Home{% endblock title %}
+{% block content %}
+<!-- <h1>Stocks and Sectors Data</h1> -->
+<!-- <p>test</p> -->
+<!-- <p>hello</p> -->
+<h1>US Stocks Sectors Aggregate Data</h1>
+<table>
+  <tr>
+    <th>Sectors Name</th>
+    <th>Avg. Margin</th>
+	<th>Avg. Leverage</th>
+	<th>Avg. Dividend Yield</th>
+	<th>Avg. Assets Turnover</th>
+  </tr>
+{% for sector in object_list %}
+  <tr>
+    <td><a href="{% url 'sectordetail' sector.id %}">{{sector.sector}}</a></td>
+    <td style="text-align:center">{{sector.avg_margin_sector|floatformat:"-2"}}</td>
+	<td style="text-align:center">{{sector.avg_leverage_sector|floatformat:"-2"}}</td>
+	<td style="text-align:center">{{sector.avg_dividend_yield_sector|floatformat:"-4"}}</td>
+	<td style="text-align:center">{{sector.avg_assets_turnover_sector|floatformat:"-4"}}</td>
+  </tr>
+{% endfor %}
+</table>
+{% endblock content %}

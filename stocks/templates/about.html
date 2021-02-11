@@ -1,0 +1,57 @@
+{% extends '_base.html' %}
+{% block title %}About this site{% endblock title %}
+{% block content %}
+<h1>About this site</h1>
+
+<p>Hello! Thank you for visiting this page. On this site, you can pre-select stocks and sectors for long and short positions in your investment portfolio, using the following indicators:
+<ul><li>forward P/E,</li> 
+<li>leverage,</li>  
+<li>margin,</li>  
+<li>liquidity,</li>  
+<li>cash flow,</li>  
+<li>CEO payment.</li> </ul>
+I regularly update the database of stocks (~3600 tickers) of the Vanguard Total Stock Market ETF (VTI). After refreshing the data, the system recalculates the indicators. The date of the last database update is indicated in the header of the site.</p> 
+
+<h2>The method details</h2>
+
+<p>The <a href="https://www.aaii.com/journal/article/simple-methods-to-improve-the-piotroski-f-score">Piotroski F-score</a> system inspired me to create this resource. It is a checklist for assessing the financial health of a company using its annual and quarterly reports. It allows us to gain valuable information with little effort. Despite all advantages of the Piotroski F-score system, I do not use its integral score indicator.</p>
+
+<p>For example, the company's margin may fall from 24% to 23% in the last year. The system says that margin has dropped and therefore significantly lowers the F-score. Although in practice, such a small and temporary decrease in margin is most likely not significant. Although, together with other negative signals, it can be of importance.</p>
+
+<h2>How to use this site</h2>
+
+<p>The easiest way to use <a href="http://stocks.pp.ua/">the tables</a> on this site is to sort stocks by their forward P/E. Stocks with a low forward P/E are considered сheap. The "value investment" school of thought says that you should buy such stocks. The "professional trading" school of thought says that you should strictly avoid bargain stocks because they are cheap for some significant reason.</p>
+
+<p>In addition to the forward P/E, you can also compare companies operating in the same sectors by their margin and debt (leverage). If inflation or some other crisis occurs, companies with high debt and low margins will have the most problems. It makes sense to sell short the shares of such companies to reduce the overall portfolio risk.</p>
+
+<p>I was surprised to find that aggregated statistics by sectors and industries are not readily available. So I hope you find this site useful.</p>
+
+<p>Of course, you should not make any investment decisions based solely on the data presented here. After a preliminary quantitative selection of companies, investors must analyze their competitive positions (<a href="https://www.amazon.com/gp/product/B008L045N4/ref=dbs_a_def_rwt_bibl_vppi_i1">economic moats</a>). Such analysis is a mixture of art and science. It cannot be easily automated, so computers still have not driven people out of it.</p>
+
+<h2>Technical details</h2>
+
+<p>This site's CMS is Django. The backend database is MySQL. Sources of the data:
+<ul><li>Yahoo! Finance;</li>
+<li>Alpha Vantage;</li>
+<li>Interactive Brokers API.</li></ul>
+All trademarks are property of their respective owners.
+</p>
+
+<h2>Contacts</h2>
+
+<p>If you have any questions or requests, please contact me via <a href="https://www.linkedin.com/in/kushchenko/">LinkedIn</a>. Currently, I am actively looking for a job:
+<ul><li>Data Analyst;</li>
+<li>SQL Server Database Developer;</li>
+<li>Python Developer;</li>
+<li>Investment Analyst, Trader.</li></ul></p>
+
+<p>I have good knowledge and practice in the following areas:
+<ul><li>Mathematics: calculus, linear algebra, probability and statistics, time series;</li>
+<li>Python and its ecosystem: NumPy, Pandas, SciPy, Matplotlib, etc.;</li>
+<li>Machine learning in Scikit-learn, deep learning in Keras and TensorFlow;</li>
+<li>Relational databases, SQL: Oracle, MS SQL Server, MySQL, PostgreSQL.</li></ul></p>
+
+<p>I have an MCSE degree in SQL Server 2016 database development. Also, please see my <a href="https://stackoverflow.com/users/3139228/serhii-kushchenko">StackOverflow profile</a>.<p>
+
+<p><a href="{% url 'home' %}">Back to home page</a></p>
+{% endblock content %}
