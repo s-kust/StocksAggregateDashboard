@@ -9,12 +9,7 @@ class NewVisitorTest(unittest.TestCase):
     def tearDown(self):
         self.browser.quit()
   
-    def test_homepage_title(self):
-        
-# print(browser.page_source)
-# print('Now cookies')
-# print(browser.get_cookies())
-
+    def test_homepage_title(self):       
         self.assertIn ('Stocks and Sectors Data', self.browser.title)
         self.assertIn ('Home', self.browser.title)
     
@@ -26,3 +21,6 @@ class NewVisitorTest(unittest.TestCase):
 if __name__ == '__main__':
     # unittest.main(warnings='ignore')
     unittest.main()
+    
+# print(browser.page_source)
+# print(browser.get_cookies())    
