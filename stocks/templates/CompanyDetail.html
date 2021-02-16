@@ -5,8 +5,8 @@
 <h1>{{dataTicker.ticker}} {{dataTicker.shortname}} Company Data</h1>
 <p>{{dataTicker.shortname}} is a company from the {{dataTicker.industry}} industry, {{dataTicker.ticker.sector}} sector.</p>
 <p><a href="{% url 'home' %}">Back to home page</a></p>
-<p><a href="{% url 'sectordetail' dataTicker.industry.sector.id %}">Back to {{dataTicker.industry.sector}} sector</a></p>
-<p><a href="{% url 'industrydetailleverage' dataTicker.industry.id %}">Back to {{dataTicker.industry}} industry</a></p>
+<p><a href="{% url 'sectordetail' dataTicker.industry.sector.slug %}">Back to {{dataTicker.industry.sector}} sector</a></p>
+<p><a href="{% url 'industrydetailleverage' dataTicker.industry.slug %}">Back to {{dataTicker.industry}} industry</a></p>
 <p>{{dataTicker.ticker}} {{dataTicker.shortname}} indicators:</p>
 <ul>
 <li>Forward P/E: {{dataTicker.forwardpe}}</li>
@@ -54,5 +54,5 @@
   </tr>
 {% endfor %}
 </table>
-<p>You can compare the {{dataTicker.ticker}} {{dataTicker.shortname}} company with its peers on the {{dataTicker.industry}} industry page <a href="{% url 'industrydetailleverage' dataTicker.industry.id %}">here</a>.</p>
+<p>You can compare the {{dataTicker.ticker}} {{dataTicker.shortname}} company with its peers on the {{dataTicker.industry}} industry page <a href="{% url 'industrydetailleverage' dataTicker.industry.slug %}">here</a>.</p>
 {% endblock content %}
