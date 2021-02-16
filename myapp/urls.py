@@ -20,7 +20,7 @@ from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/v2/', include('api.urls')),
+    path('api/v2/', include('api.urls', namespace='api')),
     path('', include('stocks.urls')),
     path('__debug__/', include(debug_toolbar.urls)),
 ]
