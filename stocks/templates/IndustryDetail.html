@@ -24,7 +24,7 @@
 	<th>Dividend Yield</th>
 	<th>Assets Turnover</th>
   </tr>
-{% for company in industry.companies.all|dictsort:"leverage" %}
+{% for company in tickers %}
   <tr>
     <td><a href="{% url 'companydetail' company.ticker %}">{{company.ticker}}</a></td>
 	<td><a href="{% url 'companydetail' company.ticker %}">{{company.shortname}}</a></td>
@@ -39,8 +39,15 @@
   </tr>
 {% endfor %}
 </table>
-<p>The list of companies is sorted by Leverage.</p>
-<p>If you'd like to see it sorted by Margin, click <a href="{% url 'industrydetailmargin' industry.slug %}">here</a>.</p>
-<p>If you'd like to see it sorted by Forward P/E, click <a href="{% url 'industrydetailpe' industry.slug %}">here</a>.</p>
+<p>The list of companies is sorted by {{sorting}}.</p>
+{% if sorting != 'Leverage' %}
+<p>If you'd like to see it sorted by Leverage, click <a href="{% url 'industrydetail' industry.slug %}?order_by=leverage">here</a>.</p>
+{% endif %}
+{% if sorting != 'Margin' %}
+<p>If you'd like to see it sorted by Margin, click <a href="{% url 'industrydetail' industry.slug %}?order_by=margin">here</a>.</p>
+{% endif %}
+{% if sorting != 'Forward P/E' %}
+<p>If you'd like to see it sorted by Forward P/E, click <a href="{% url 'industrydetail' industry.slug %}?order_by=forwardpe">here</a>.</p>
+{% endif %}
 <p>All numbers and indicators on this page are calculated using the data from the last 12 months that are available.</p>
 {% endblock content %}

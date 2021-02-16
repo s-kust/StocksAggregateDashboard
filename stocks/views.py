@@ -8,26 +8,24 @@ class HomePageView(ListView):
     model = Sectors
     template_name = 'home.html'
 
-# def sectordetail(request, sector_id):
-    # sector = get_object_or_404(Sectors, pk=sector_id)
-    # return render(request, 'SectorDetail.html', {'sector': sector})
-
 def sectordetail(request, slug):
     sector = get_object_or_404(Sectors, slug=slug)
     return render(request, 'SectorDetail.html', {'sector': sector})
     
-def industrydetailleverage(request, slug):
+def industrydetail(request, slug):
+    sorting = request.GET.get('order_by')
+    if sorting not in ['leverage', 'margin', 'forwardpe']:
+        sorting ='leverage'
     industry = get_object_or_404(Industries, slug=slug)
-    return render(request, 'IndustryDetailLeverage.html', {'industry': industry})
-
-def industrydetailpe(request, slug):
-    industry = get_object_or_404(Industries, slug=slug)
-    return render(request, 'IndustryDetailPE.html', {'industry': industry})
-
-def industrydetailmargin(request, slug):
-    industry = get_object_or_404(Industries, slug=slug)
-    return render(request, 'IndustryDetailMargin.html', {'industry': industry})
-    
+    tickers = industry.companies.all().order_by(sorting)
+    if sorting == 'leverage':
+       sorting = 'Leverage' 
+    if sorting == 'margin':
+       sorting = 'Margin' 
+    if sorting == 'forwardpe':
+       sorting = 'Forward P/E' 
+    return render(request, 'IndustryDetail.html', {'industry': industry, 'tickers' : tickers, 'sorting' : sorting})
+   
 def companydetail(request, ticker):
     dataTickers = Tickers.objects.get(ticker=ticker)
     return render(request, 'CompanyDetail.html', {'dataTicker': dataTickers})
