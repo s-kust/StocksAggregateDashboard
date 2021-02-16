@@ -14,7 +14,7 @@
   </tr>
 {% for industry in sector.industries.all %}
   <tr>
-    <td><a href="{% url 'industrydetailleverage' industry.id %}">{{industry.industry}}</a></td>
+    <td><a href="{% url 'industrydetailleverage' industry.slug %}">{{industry.industry}}</a></td>
     <td style="text-align:center">{{industry.avg_margin|floatformat:"-2"}}</td>
 	<td style="text-align:center">{{industry.avg_leverage|floatformat:"-2"}}</td>
 	<td style="text-align:center">{{industry.avg_dividend_yield|floatformat:"-4"}}</td>

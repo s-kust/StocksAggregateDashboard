@@ -8,20 +8,24 @@ class HomePageView(ListView):
     model = Sectors
     template_name = 'home.html'
 
-def sectordetail(request, sector_id):
-    sector = get_object_or_404(Sectors, pk=sector_id)
-    return render(request, 'SectorDetail.html', {'sector': sector})
+# def sectordetail(request, sector_id):
+    # sector = get_object_or_404(Sectors, pk=sector_id)
+    # return render(request, 'SectorDetail.html', {'sector': sector})
 
-def industrydetailleverage(request, industry_id):
-    industry = get_object_or_404(Industries, pk=industry_id)
+def sectordetail(request, slug):
+    sector = get_object_or_404(Sectors, slug=slug)
+    return render(request, 'SectorDetail.html', {'sector': sector})
+    
+def industrydetailleverage(request, slug):
+    industry = get_object_or_404(Industries, slug=slug)
     return render(request, 'IndustryDetailLeverage.html', {'industry': industry})
 
-def industrydetailpe(request, industry_id):
-    industry = get_object_or_404(Industries, pk=industry_id)
+def industrydetailpe(request, slug):
+    industry = get_object_or_404(Industries, slug=slug)
     return render(request, 'IndustryDetailPE.html', {'industry': industry})
 
-def industrydetailmargin(request, industry_id):
-    industry = get_object_or_404(Industries, pk=industry_id)
+def industrydetailmargin(request, slug):
+    industry = get_object_or_404(Industries, slug=slug)
     return render(request, 'IndustryDetailMargin.html', {'industry': industry})
     
 def companydetail(request, ticker):

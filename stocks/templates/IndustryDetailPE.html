@@ -3,7 +3,7 @@
 {% block content %}
 <h1>{{industry.industry}} Companies Data</h1>
 <p><a href="{% url 'home' %}">Back to home page</a></p>
-<p><a href="{% url 'sectordetail' industry.sector.id %}">Back to {{industry.sector}} sector</a></p>
+<p><a href="{% url 'sectordetail' industry.sector.slug %}">Back to {{industry.sector}} sector</a></p>
 <p>{{industry.industry}} industry average indicators:</p>
 <ul>
 <li>Margin: {{industry.avg_margin|floatformat:"-2"}}</li>
@@ -40,7 +40,7 @@
 {% endfor %}
 </table>
 <p>The list of companies is sorted by Forward P/E.</p>
-<p>If you'd like to see it sorted by Leverage, click <a href="{% url 'industrydetailleverage' industry.id %}">here</a>.</p>
-<p>If you'd like to see it sorted by Margin, click <a href="{% url 'industrydetailmargin' industry.id %}">here</a>.</p>
+<p>If you'd like to see it sorted by Leverage, click <a href="{% url 'industrydetailleverage' industry.slug %}">here</a>.</p>
+<p>If you'd like to see it sorted by Margin, click <a href="{% url 'industrydetailmargin' industry.slug %}">here</a>.</p>
 <p>All numbers and indicators on this page are calculated using the data from the last 12 months that are available.</p>
 {% endblock content %}
