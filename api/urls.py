@@ -4,7 +4,6 @@ from django.urls import path
 from .views import SectorsList, SectorDetail, IndustryDetail, TickerDetail
 from rest_framework.urlpatterns import format_suffix_patterns
 
-
 urlpatterns = [
 path('', SectorsList.as_view()),
 path('sector/<slug:slug>/', SectorDetail.as_view(), name='sector-detail'),
