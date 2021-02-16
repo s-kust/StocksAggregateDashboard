@@ -1,5 +1,5 @@
 # stocks/urls.py
-from django.urls import path
+from django.urls import path, include
 from .views import HomePageView, SearchResultsListView
 from django.views.generic import TemplateView
 from . import views
@@ -12,4 +12,5 @@ path('industry/<slug:slug>/', views.industrydetail, name='industrydetail'), # le
 path('company/<slug:ticker>/', views.companydetail, name='companydetail'),
 path('search/', SearchResultsListView.as_view(), name='search_results'),
 path('about/', TemplateView.as_view(template_name="about.html"), name='about'),
+# path('api/v2/', include('api.urls')),
 ]
