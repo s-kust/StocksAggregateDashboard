@@ -12,7 +12,7 @@
 	<th>Avg. Dividend Yield</th>
 	<th>Avg. Assets Turnover</th>
   </tr>
-{% for industry in sector.industries_set.all %}
+{% for industry in sector.industries.all %}
   <tr>
     <td><a href="{% url 'industrydetailleverage' industry.id %}">{{industry.industry}}</a></td>
     <td style="text-align:center">{{industry.avg_margin|floatformat:"-2"}}</td>

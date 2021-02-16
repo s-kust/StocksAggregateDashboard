@@ -24,7 +24,7 @@
 	<th>Dividend Yield</th>
 	<th>Assets Turnover</th>
   </tr>
-{% for company in industry.tickers_set.all|dictsort:"leverage" %}
+{% for company in industry.companies.all|dictsort:"leverage" %}
   <tr>
     <td><a href="{% url 'companydetail' company.ticker %}">{{company.ticker}}</a></td>
 	<td><a href="{% url 'companydetail' company.ticker %}">{{company.shortname}}</a></td>
