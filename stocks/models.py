@@ -1,8 +1,10 @@
 from django.db import models
 from django.urls import reverse
+from django.utils.text import slugify
 
 class Sectors(models.Model):
     sector = models.CharField(db_column='Sector', max_length=100, unique=True)  # Field name made lowercase.
+    slug = models.SlugField(max_length=255, default=sector)
     avg_margin_sector = models.DecimalField(db_column='avgMarginSector', max_digits=33, decimal_places=14, blank=True, null=True)
     avg_leverage_sector = models.DecimalField(db_column='avgLeverageSector', max_digits=33, decimal_places=14, blank=True, null=True)
     avg_dividend_yield_sector = models.FloatField(db_column='avgDividendYieldSector', blank=True, null=True)
@@ -11,13 +13,18 @@ class Sectors(models.Model):
     def __str__(self):
         return self.sector
 
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.sector)
+        super(Sectors, self).save(*args, **kwargs)
+    
     class Meta:
         managed = True
         db_table = 'sectors'
 
 class Industries(models.Model):
-    sector = models.ForeignKey(Sectors, to_field="sector", db_column="Sector", on_delete=models.CASCADE)  # Field name made lowercase.
+    sector = models.ForeignKey(Sectors, to_field="sector", db_column="Sector", related_name='industries', on_delete=models.CASCADE)  # Field name made lowercase.
     industry = models.CharField(db_column='Industry', max_length=100, unique=True)  # Field name made lowercase.
+    slug = models.SlugField(max_length=255, default=industry)
     avg_margin = models.DecimalField(db_column='avgMargin', max_digits=33, decimal_places=14, blank=True, null=True)  # Field name made lowercase.
     avg_leverage = models.DecimalField(db_column='avgLeverage', max_digits=33, decimal_places=14, blank=True, null=True)  # Field name made lowercase.
     avg_dividend_yield = models.FloatField(db_column='avgDividendYield', blank=True, null=True)  # Field name made lowercase.
@@ -26,6 +33,10 @@ class Industries(models.Model):
     def __str__(self):
         return self.industry
 
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.industry)
+        super(Industries, self).save(*args, **kwargs)
+        
     class Meta:
         managed = True
         db_table = 'Industries'
@@ -38,7 +49,7 @@ class Tickers(models.Model):
     forwardpe = models.FloatField(db_column='ForwardPE', default=0)  # Field name made lowercase.
     dividendyield = models.FloatField(db_column='DividendYield', default=0)  # Field name made lowercase.
     sector = models.CharField(db_column='Sector', max_length=100, blank=True, null=True)  # Field name made lowercase.
-    industry = models.ForeignKey(Industries, to_field="industry", db_column="Industry", on_delete=models.CASCADE)  # Field name made lowercase.
+    industry = models.ForeignKey(Industries, to_field="industry",  db_column="Industry", related_name='companies', on_delete=models.CASCADE)  # Field name made lowercase.
     nextearningsdate = models.DateField(db_column='NextEarningsDate', blank=True, null=True)  # Field name made lowercase.
     cfpositive = models.BooleanField(db_column='cfPositive', blank=True, null=True)  # Field name made lowercase.
     nostockissuance = models.BooleanField(db_column='NoStockIssuance', blank=True, null=True)  # Field name made lowercase.
@@ -53,46 +64,24 @@ class Tickers(models.Model):
     def get_absolute_url(self):
         return reverse('companydetail', args=[str(self.ticker)])
         
-    def get_forward_pe(self):
-        if not self.forwardpe:
-            return 0
-        return self.forwardpe
+    # def get_forward_pe(self):
+        # if not self.forwardpe:
+            # return 0
+        # return self.forwardpe
 
-    def get_leverage(self):
-        if not self.leverage:
-            return 0
-        return self.leverage
+    # def get_leverage(self):
+        # if not self.leverage:
+            # return 0
+        # return self.leverage
 
-    def get_margin(self):
-        if not self.margin:
-            return 0
-        return self.margin
+    # def get_margin(self):
+        # if not self.margin:
+            # return 0
+        # return self.margin
 
     class Meta:
         managed = True
         db_table = 'tickers'
-
-# class Tickers(models.Model):
-    # ticker = models.CharField(db_column='Ticker', primary_key=True, max_length=10)  # Field name made lowercase.
-    # shortname = models.CharField(db_column='ShortName', max_length=100, blank=True, null=True)  # Field name made lowercase.
-    # beta = models.FloatField(db_column='Beta', blank=True, null=True)  # Field name made lowercase.
-    # forwardpe = models.FloatField(db_column='ForwardPE', blank=True, null=True)  # Field name made lowercase.
-    # dividendyield = models.FloatField(db_column='DividendYield', blank=True, null=True)  # Field name made lowercase.
-    # sector = models.ForeignKey(Sectors, to_field="sector", db_column="Sector", on_delete=models.CASCADE)  # Field name made lowercase.
-    # industry = models.ForeignKey(Industries, to_field="industry", db_column="Industry", on_delete=models.CASCADE)  # Field name made lowercase.
-    # nextearningsdate = models.DateField(db_column='NextEarningsDate', blank=True, null=True)  # Field name made lowercase.
-    
-    # def get_forward_pe(self):
-        # if not self.forwardpe:
-            # return 0
-        # return self.forwardpe        
-        
-    # def __str__(self):
-        # return self.ticker
-
-    # class Meta:
-        # managed = True
-        # db_table = 'tickers'
 
 class Bosscompensations(models.Model):
     ticker = models.ForeignKey(Tickers, on_delete=models.CASCADE)

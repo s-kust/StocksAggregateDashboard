@@ -19,15 +19,15 @@ class ModelsTestCase(TestCase):
         
     def test_industries_sectors_relation(self):
         print ('industries sectors relation')
-        self.assertEqual(self.sector2.industries_set.count(), 3)
+        self.assertEqual(self.sector2.industries.count(), 3)
 
     def test_industry_in_sectors(self):
         print ('asset true - industry in the industries set of sector')
-        self.assertIn(self.industry3, self.sector2.industries_set.all())
+        self.assertIn(self.industry3, self.sector2.industries.all())
         
     def test_tickers_industries_relation(self):
         print ('tickers industries relation')
-        self.assertEqual(self.industry4.tickers_set.count(), 2)
+        self.assertEqual(self.industry4.companies.count(), 2)
     
     def test_str_industry(self):
         print ('str industries')
