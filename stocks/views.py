@@ -1,34 +1,47 @@
 from django.shortcuts import get_object_or_404, render
 from django.views.generic import TemplateView
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 from .models import Sectors, Industries, Tickers
 from django.http import HttpResponse
+# import pdb
 
 class HomePageView(ListView):
     model = Sectors
     template_name = 'home.html'
 
-def sectordetail(request, slug):
-    sector = get_object_or_404(Sectors, slug=slug)
-    return render(request, 'SectorDetail.html', {'sector': sector})
-    
-def industrydetail(request, slug):
-    sorting = request.GET.get('order_by')
-    if sorting not in ['leverage', 'margin', 'forwardpe']:
-        sorting ='leverage'
-    industry = get_object_or_404(Industries, slug=slug)
-    tickers = industry.companies.all().order_by(sorting)
-    if sorting == 'leverage':
-       sorting = 'Leverage' 
-    if sorting == 'margin':
-       sorting = 'Margin' 
-    if sorting == 'forwardpe':
-       sorting = 'Forward P/E' 
-    return render(request, 'IndustryDetail.html', {'industry': industry, 'tickers' : tickers, 'sorting' : sorting})
-   
-def companydetail(request, ticker):
-    dataTickers = Tickers.objects.get(ticker=ticker)
-    return render(request, 'CompanyDetail.html', {'dataTicker': dataTickers})
+class SectorDetailView(DetailView):
+    model = Sectors
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['sector'] = Sectors.objects.get(slug=self.kwargs['slug'])
+        return context
+  
+class IndustryDetailView(DetailView):
+    model = Industries
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        sorting = self.request.GET.get('order_by')
+        if sorting not in ['leverage', 'margin', 'forwardpe']:
+            sorting ='leverage'
+        industry = Industries.objects.get(slug=self.kwargs['slug'])
+        tickers = industry.companies.all().order_by(sorting)
+        if sorting == 'leverage':
+            sorting = 'Leverage' 
+        if sorting == 'margin':
+            sorting = 'Margin' 
+        if sorting == 'forwardpe':
+            sorting = 'Forward P/E' 
+        context['sorting'] = sorting
+        context['industry'] = industry
+        context['tickers'] = tickers
+        return context
+
+class CompanyDetailView(DetailView):
+    model = Tickers
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['dataTicker'] = Tickers.objects.get(ticker=self.kwargs['pk'])
+        return context
 
 class SearchResultsListView(ListView):
     model = Tickers
