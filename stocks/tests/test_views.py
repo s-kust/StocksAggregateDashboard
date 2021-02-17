@@ -161,8 +161,7 @@ class SectorDetailViewTests(TestCase):
     def setUpClass(self):        
         super().setUpClass()
         print('SectorDetailViewTests setup class')
-        self.sectors, self.industries, self.tickers = createTestData()
-        
+        self.sectors, self.industries, self.tickers = createTestData()       
         self.url = reverse('sectordetail', args=(self.sectors[0].slug,))
         print(self.url)
         self.client = Client()
@@ -185,40 +184,63 @@ class SectorDetailViewTests(TestCase):
         self.assertEqual(self.response_post.status_code, 405) # method not allowed
         
     def test_sector_detail_contains_correct_html_title(self):
-        pass
+        print('Sector detail Internal title')
+        self.assertContains(self.response, '<title>{0} Sectors Industries Data</title>'.format(self.sectors[0].sector))
 
     def test_sector_detail_contains_correct_html_body(self):
-        pass
+        print('Sector detail Internal body')
+        self.assertContains(self.response, '<h1>{0} Sectors Industries Data</h1>'.format(self.sectors[0].sector))
 
     def test_sector_detail_not_contains_incorrect_html(self):
-        pass
+        print('Sector detail Internal not contains')
+        self.assertNotContains(self.response, 'Hello World')
         
     def test_sector_detail_url_resolves_sector_detail_view(self):
-        pass
+        print('Sector detail Internal view name')
+        view = resolve(self.url)
+        self.assertEqual(view.func.__name__, 'SectorDetailView')
         
     @classmethod
     def tearDownClass(self):
         super().tearDownClass()
         
-class IndustryDetailViewTests(TestCase):   
+class IndustryDetailViewTests(TestCase):
+    
+    @classmethod
+    def setUpClass(self):        
+        super().setUpClass()
+        print('IndustryDetailViewTests setup class')
+        self.sectors, self.industries, self.tickers = createTestData()       
+        self.url = reverse('industrydetail', args=(self.industries[0].slug,))
+        print(self.url)
+        self.client = Client()
+        self.response = self.client.get(self.url)       
     
     def test_industry_detail_status_code(self):
-        pass
+        print('Industry detail Internal status code - get method')
+        self.assertEqual(self.response.status_code, 200)
         
     def test_industry_detail_status_code_post(self):
-        pass
+        print('Industry detail Internal status code - post method')
+        self.response_post = self.client.post(self.url)
+        self.assertEqual(self.response_post.status_code, 405) # method not allowed
         
     def test_industry_detail_contains_correct_html_title(self):
-        pass
+        print('Industry detail Internal title')
+        self.assertContains(self.response, '<title>{0} Industry Companies Data</title>'.format(self.industries[0].industry))
 
     def test_industry_detail_contains_correct_html_body(self):
-        pass
+        print('Industry detail Internal body')
+        self.assertContains(self.response, '<h1>{0} Companies Data</h1>'.format(self.industries[0].industry))
 
     def test_industry_detail_not_contains_incorrect_html(self):
-        pass
+        print('Industry detail Internal not contains')
+        self.assertNotContains(self.response, 'Hello World')
         
     def test_industry_detail_url_resolves_industry_detail_view(self):
-        pass   
+        print('Industry detail Internal view name')
+        view = resolve(self.url)
+        self.assertEqual(view.func.__name__, 'IndustryDetailView')   
 
     @classmethod
     def tearDownClass(self):
@@ -226,23 +248,48 @@ class IndustryDetailViewTests(TestCase):
         
 class CompanyDetailViewTests(TestCase):   
     
+    @classmethod
+    def setUpClass(self):        
+        super().setUpClass()
+        print('IndustryDetailViewTests setup class')
+        self.sectors, self.industries, self.tickers = createTestData()       
+        self.url = reverse('companydetail', args=(self.tickers[0].ticker,))
+        print(self.url)
+        self.client = Client()
+        self.response = self.client.get(self.url)
+        
+        # import inspect
+        # attributes = inspect.getmembers(self.response, lambda a:not(inspect.isroutine(a)))
+        # attributes_filtered = [a for a in attributes if not(a[0].startswith('__') and a[0].endswith('__'))]
+        # print()
+        # print(attributes_filtered)
+        # print()
+    
     def test_company_detail_status_code(self):
-        pass
+        print('Company detail Internal status code - get method')
+        self.assertEqual(self.response.status_code, 200)
         
     def test_company_detail_status_code_post(self):
-        pass
+        print('Company detail Internal status code - post method')
+        self.response_post = self.client.post(self.url)
+        self.assertEqual(self.response_post.status_code, 405) # method not allowed
         
     def test_company_detail_contains_correct_html_title(self):
-        pass
+        print('Company detail Internal title')
+        self.assertContains(self.response, '<title>{0} Company Data</title>'.format(self.tickers[0].ticker))
 
     def test_company_detail_contains_correct_html_body(self):
-        pass
+        print('Company detail Internal body')
+        self.assertContains(self.response, '<h1>{0} None Company Data</h1>'.format(self.tickers[0].ticker))
 
     def test_company_detail_not_contains_incorrect_html(self):
-        pass
+        print('Company detail Internal not contains')
+        self.assertNotContains(self.response, 'Hello World')
         
     def test_company_detail_url_resolves_company_detail_view(self):
-        pass 
+        print('Company detail Internal view name')
+        view = resolve(self.url)
+        self.assertEqual(view.func.__name__, 'CompanyDetailView')    
 
     @classmethod
     def tearDownClass(self):
