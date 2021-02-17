@@ -161,30 +161,28 @@ class SectorDetailViewTests(TestCase):
     def setUpClass(self):        
         super().setUpClass()
         print('SectorDetailViewTests setup class')
-        sectors, industries, tickers = createTestData()
+        self.sectors, self.industries, self.tickers = createTestData()
+        
+        self.url = reverse('sectordetail', args=(self.sectors[0].slug,))
+        print(self.url)
+        self.client = Client()
+        self.response = self.client.get(self.url)
         
         # import inspect
-        # self.url = reverse('sectordetail', args=(sectors[0].slug,))
-        # print(self.url)
-        # self.client = Client()
-        # self.response = self.client.get(self.url)
         # attributes = inspect.getmembers(self.response, lambda a:not(inspect.isroutine(a)))
         # attributes_filtered = [a for a in attributes if not(a[0].startswith('__') and a[0].endswith('__'))]
         # print()
         # print(attributes_filtered)
         # print()
-        
-        
-        
-        # for sector in sectors:
-            # print()
-            # print(sector.sector, sector.slug)
-    
+            
     def test_sector_detail_status_code(self):
-        pass
+        print('Sector detail Internal status code - get method')
+        self.assertEqual(self.response.status_code, 200)
         
     def test_sector_detail_status_code_post(self):
-        pass
+        print('Sector detail Internal status code - post method')
+        self.response_post = self.client.post(self.url)
+        self.assertEqual(self.response_post.status_code, 405) # method not allowed
         
     def test_sector_detail_contains_correct_html_title(self):
         pass
