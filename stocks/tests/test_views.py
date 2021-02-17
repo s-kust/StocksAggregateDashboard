@@ -2,14 +2,20 @@ from django.test import TestCase, Client
 from django.urls import reverse, resolve
 from ..views import HomePageView
 from django.views.generic import TemplateView
-# from model_bakery import baker
+from model_bakery import baker
 
-# def createTestData():
-    # sectors = baker.malke(Sectors, _quantity=3)
-    # print(type(sectors))
-    # for sector in sectors:
-        # print()
-        # print(sector)
+def createTestData():
+    sectors = baker.make('stocks.Sectors', _quantity=3)
+    industries = baker.make('stocks.Industries', sector=sectors[0], _quantity=3)
+    tickers = baker.make('stocks.Tickers', industry=industries[0], _quantity=3)
+    return(sectors, industries, tickers)        
+        
+# def setUpModule():
+    # print ('Module setup...')
+    # sectors = baker.make('stocks.Sectors', _quantity=3)
+
+# def tearDownModule():
+    # print ('Module teardown...') 
 
 class HomePageViewTests(TestCase):
     
@@ -102,10 +108,13 @@ class SearchViewTests(TestCase):
     @classmethod
     def setUpClass(self):
         super().setUpClass()
-        self.url = "%s?q=WM" % reverse('search_results')
+        print('Search Page setup class')
+        self.sectors, self.industries, self.tickers = createTestData()        
+        print(self.tickers[0].ticker[0:3])
+        self.url = "{0}{1}{2}".format(reverse('search_results'), '?q=', self.tickers[0].ticker[0:3])
         self.client = Client()
         self.response = self.client.get(self.url)
-        # print(url)
+        print(self.url)
     
     def test_search_status_code(self):
         print('Search Page Internal status code - get method')
@@ -131,7 +140,7 @@ class SearchViewTests(TestCase):
 
     def test_search_contains_correct_html_body(self):
         print('Search Page Internal body')
-        self.assertContains(self.response, '<h1>Search Results</h1>\n<p>Search term: "WM"</p>')
+        self.assertContains(self.response, '<h1>Search Results</h1>\n<p>Search term: "{0}"</p>'.format(self.tickers[0].ticker[0:3]))
 
     def test_search_not_contains_incorrect_html(self):
         print('Search Page Internal not contains')
@@ -149,19 +158,27 @@ class SearchViewTests(TestCase):
 class SectorDetailViewTests(TestCase):   
     
     @classmethod
-    def setUpClass(self):
-        import inspect
+    def setUpClass(self):        
         super().setUpClass()
         print('SectorDetailViewTests setup class')
-        self.url = reverse('sectordetail', args=('test',))
+        sectors, industries, tickers = createTestData()
+        
+        # import inspect
+        # self.url = reverse('sectordetail', args=(sectors[0].slug,))
         # print(self.url)
-        self.client = Client()
-        self.response = self.client.get(self.url)
-        attributes = inspect.getmembers(self.response, lambda a:not(inspect.isroutine(a)))
-        attributes_filtered = [a for a in attributes if not(a[0].startswith('__') and a[0].endswith('__'))]
-        print()
-        print(attributes_filtered)
-        print()
+        # self.client = Client()
+        # self.response = self.client.get(self.url)
+        # attributes = inspect.getmembers(self.response, lambda a:not(inspect.isroutine(a)))
+        # attributes_filtered = [a for a in attributes if not(a[0].startswith('__') and a[0].endswith('__'))]
+        # print()
+        # print(attributes_filtered)
+        # print()
+        
+        
+        
+        # for sector in sectors:
+            # print()
+            # print(sector.sector, sector.slug)
     
     def test_sector_detail_status_code(self):
         pass
