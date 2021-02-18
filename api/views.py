@@ -9,11 +9,11 @@ from rest_framework import status
 from rest_framework import mixins
 from collections import namedtuple
 
-class SectorsList(generics.ListAPIView):
+class ApiSectorsList(generics.ListAPIView):
     queryset = Sectors.objects.all()
     serializer_class = SectorsSerializer
 
-class SectorDetail(mixins.RetrieveModelMixin,
+class ApiSectorDetail(mixins.RetrieveModelMixin,
                     generics.GenericAPIView):
     lookup_field = 'slug'
     queryset = Sectors.objects.all()
@@ -22,7 +22,7 @@ class SectorDetail(mixins.RetrieveModelMixin,
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)   
         
-class IndustryDetail(mixins.RetrieveModelMixin,
+class ApiIndustryDetail(mixins.RetrieveModelMixin,
                     generics.GenericAPIView):
     lookup_field = 'slug'
     queryset = Industries.objects.all()
@@ -33,7 +33,7 @@ class IndustryDetail(mixins.RetrieveModelMixin,
 
 TickerCombined = namedtuple('TickerCombined', ['ticker', 'yearly_results'])
 
-class TickerDetail(APIView):
+class ApiTickerDetail(APIView):
     def get(self, request, pk):
         ticker_info = Tickers.objects.get(pk=pk)
         yearly_results_data = Resultsyearly.objects.filter(ticker=pk)

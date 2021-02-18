@@ -14,3 +14,14 @@ git add .gitignore
 git rm -r --cached '*.pyc'
 git rm -r --cached '*/__pycache__/*'
 git rm -r --cached myapp/.env
+
+from stocks.models import Sectors
+sectors = Sectors.objects.all()
+for sector in sectors: sectors.save()
+
+from stocks.models import Industries
+industries = Industries.objects.all()
+for industry in industries: industry.save()
+
+
+python stocks\functional_tests\functional_tests.py
