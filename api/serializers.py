@@ -4,7 +4,7 @@ from stocks.models import Sectors, Industries, Tickers, Resultsyearly
 from rest_framework.reverse import reverse
 
 class SectorsSerializer(serializers.HyperlinkedModelSerializer):
-    industries = serializers.HyperlinkedRelatedField(many=True, view_name='industry-detail', read_only=True, allow_null=True, lookup_field='slug')
+    industries = serializers.HyperlinkedRelatedField(many=True, view_name='api:industry-detail', read_only=True, allow_null=True, lookup_field='slug')
     # url = serializers.HyperlinkedRelatedField(view_name='sector-detail', read_only=True, allow_null=True, lookup_field='slug')
     avg_margin = serializers.DecimalField(source='avg_margin_sector', max_digits=33, decimal_places=3)
     avg_leverage = serializers.DecimalField(source='avg_leverage_sector', max_digits=33, decimal_places=3)
@@ -16,7 +16,7 @@ class SectorsSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('sector', 'avg_margin', 'avg_leverage', 'avg_dividend_yield', 'avg_assets_turnover', 'industries')
         
 class IndustriesSerializer(serializers.HyperlinkedModelSerializer):
-    companies = serializers.HyperlinkedRelatedField(many=True, view_name='ticker-detail', read_only=True, allow_null=True)
+    companies = serializers.HyperlinkedRelatedField(many=True, view_name='api:ticker-detail', read_only=True, allow_null=True)
     # sector_slug = serializers.CharField(source='sector.slug')
     # sector_url = serializers.HyperlinkedRelatedField(view_name='sector-detail', read_only=True, allow_null=True, lookup_field=sector_slug)
     # sector_url = reverse('sector-detail', kwargs={'slug': sector_slug})

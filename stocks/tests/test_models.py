@@ -18,27 +18,27 @@ class ModelsTestCase(TestCase):
         cls.ticker5 = Tickers.objects.create(ticker="MNO", shortname="MNO corp.", industry=cls.industry4)  
         
     def test_industries_sectors_relation(self):
-        print ('industries sectors relation')
+        # print ('industries sectors relation')
         self.assertEqual(self.sector2.industries.count(), 3)
 
     def test_industry_in_sectors(self):
-        print ('asset true - industry in the industries set of sector')
+        # print ('asset true - industry in the industries set of sector')
         self.assertIn(self.industry3, self.sector2.industries.all())
         
     def test_tickers_industries_relation(self):
-        print ('tickers industries relation')
+        # print ('tickers industries relation')
         self.assertEqual(self.industry4.companies.count(), 2)
     
     def test_str_industry(self):
-        print ('str industries')
+        # print ('str industries')
         self.assertEqual(str(self.industry4), 'Industry - 4')
         
     def test_str_ticker(self):
-        print ('str tickers')
+        # print ('str tickers')
         self.assertEqual(str(self.ticker2), 'DEF DEF inc.')    
     
     def test_ticker_fields_default_values(self):
-        print ('tickers defaults')
+        # print ('tickers defaults')
         self.assertEqual(self.ticker2.forwardpe, 0)          
         self.assertEqual(self.ticker2.dividendyield, 0)
         self.assertEqual(self.ticker2.margin, 0)
