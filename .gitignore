@@ -4,3 +4,4 @@ geckodriver.log
 __pycache__
 *.pyc
 myapp/.env
+git_bash_init.txt
