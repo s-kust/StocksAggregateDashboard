@@ -112,7 +112,7 @@ class MainSiteAndApiTest(unittest.TestCase):
         self.assertIn ('DUK Company Data', self.browser.title)
         self.assertIn ('Here it is easy to see how Duke Energy Corporation', self.browser.page_source)
 
-    def test_api_main_title_body(self):   
+    def test_api(self):   
         print('Functional test - Homepage')
         self.browser.get('http://stocks.pp.ua/api/v2/')
         delay = 5 # seconds

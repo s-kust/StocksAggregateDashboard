@@ -7,11 +7,12 @@ from model_bakery import baker
 # from api.serializers import 
 
 client = Client()
+test_data_items_number = 5
 
-def createTestData():
-    sectors = baker.make('stocks.Sectors', _quantity=3)
-    industries = baker.make('stocks.Industries', sector=sectors[0], _quantity=3)
-    tickers = baker.make('stocks.Tickers', industry=industries[0], _quantity=3)
+def createTestData(items_number):
+    sectors = baker.make('stocks.Sectors', _quantity=items_number)
+    industries = baker.make('stocks.Industries', sector=sectors[0], _quantity=items_number)
+    tickers = baker.make('stocks.Tickers', industry=industries[0], _quantity=items_number)
     return(sectors, industries, tickers)  
 
 class ApiSectorsListViewTests(TestCase):
@@ -20,7 +21,7 @@ class ApiSectorsListViewTests(TestCase):
     def setUpClass(self):
         super().setUpClass()
         # print('ApiSectorsListViewTests setup class')
-        self.sectors, self.industries, self.tickers = createTestData()  
+        self.sectors, self.industries, self.tickers = createTestData(test_data_items_number)  
         self.url = reverse('api:apihome')
         # print(self.url)
         self.client = Client()
@@ -55,8 +56,8 @@ class ApiSectorsListViewTests(TestCase):
         
     def test_api_sector_list_data(self):        
         # print('Api Sectors List Internal data')
-        self.assertEqual(len(self.response.data), 3)
-        self.assertEqual(len(self.response.data[0]['industries']), 3)
+        self.assertEqual(len(self.response.data), test_data_items_number)
+        self.assertEqual(len(self.response.data[0]['industries']), test_data_items_number)
         self.assertContains(self.response, self.sectors[0].sector)
         self.assertContains(self.response, self.sectors[1].sector)
         self.assertContains(self.response, self.sectors[2].sector)
@@ -71,7 +72,7 @@ class ApiIndustryDetailViewTests(TestCase):
     def setUpClass(self):
         super().setUpClass()
         # print('ApiIndustryDetailViewTests setup class')
-        self.sectors, self.industries, self.tickers = createTestData()  
+        self.sectors, self.industries, self.tickers = createTestData(test_data_items_number)  
         self.url = reverse('api:industry-detail', args=(self.industries[0].slug,))
         # print(self.url)
         self.client = Client()
@@ -106,7 +107,7 @@ class ApiIndustryDetailViewTests(TestCase):
         
     def test_api_industry_detail_data(self):        
         # print('Api Industry Detail Internal data')
-        self.assertEqual(len(self.response.data['companies']), 3)
+        self.assertEqual(len(self.response.data['companies']), test_data_items_number)
         self.assertContains(self.response, self.tickers[0].ticker)
         self.assertContains(self.response, self.tickers[1].ticker)
         self.assertContains(self.response, self.tickers[2].ticker)
@@ -122,7 +123,7 @@ class ApiTickerDetailViewTests(TestCase):
     def setUpClass(self):
         super().setUpClass()
         # print('ApiTickerDetailViewTests setup class')
-        self.sectors, self.industries, self.tickers = createTestData()  
+        self.sectors, self.industries, self.tickers = createTestData(test_data_items_number)  
         self.url = reverse('api:ticker-detail', args=(self.tickers[0].ticker,))
         # print(self.url)
         self.client = Client()

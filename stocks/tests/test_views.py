@@ -4,10 +4,12 @@ from ..views import HomePageView
 from django.views.generic import TemplateView
 from model_bakery import baker
 
-def createTestData():
-    sectors = baker.make('stocks.Sectors', _quantity=3)
-    industries = baker.make('stocks.Industries', sector=sectors[0], _quantity=3)
-    tickers = baker.make('stocks.Tickers', industry=industries[0], _quantity=3)
+test_data_items_number = 5
+
+def createTestData(items_number):
+    sectors = baker.make('stocks.Sectors', _quantity=items_number)
+    industries = baker.make('stocks.Industries', sector=sectors[0], _quantity=items_number)
+    tickers = baker.make('stocks.Tickers', industry=industries[0], _quantity=items_number)
     return(sectors, industries, tickers)        
         
 class HomePageViewTests(TestCase):
@@ -102,7 +104,7 @@ class SearchViewTests(TestCase):
     def setUpClass(self):
         super().setUpClass()
         # print('Search Page setup class')
-        self.sectors, self.industries, self.tickers = createTestData()        
+        self.sectors, self.industries, self.tickers = createTestData(test_data_items_number)        
         # print(self.tickers[0].ticker[0:3])
         self.url = "{0}{1}{2}".format(reverse('search_results'), '?q=', self.tickers[0].ticker[0:3])
         self.client = Client()
@@ -157,7 +159,7 @@ class SectorDetailViewTests(TestCase):
     def setUpClass(self):        
         super().setUpClass()
         # print('SectorDetailViewTests setup class')
-        self.sectors, self.industries, self.tickers = createTestData()       
+        self.sectors, self.industries, self.tickers = createTestData(test_data_items_number)       
         self.url = reverse('sectordetail', args=(self.sectors[0].slug,))
         # print(self.url)
         self.client = Client()
@@ -199,7 +201,7 @@ class IndustryDetailViewTests(TestCase):
     def setUpClass(self):        
         super().setUpClass()
         # print('IndustryDetailViewTests setup class')
-        self.sectors, self.industries, self.tickers = createTestData()       
+        self.sectors, self.industries, self.tickers = createTestData(test_data_items_number)       
         self.url = reverse('industrydetail', args=(self.industries[0].slug,))
         # print(self.url)
         self.client = Client()
@@ -241,7 +243,7 @@ class CompanyDetailViewTests(TestCase):
     def setUpClass(self):        
         super().setUpClass()
         # print('IndustryDetailViewTests setup class')
-        self.sectors, self.industries, self.tickers = createTestData()       
+        self.sectors, self.industries, self.tickers = createTestData(test_data_items_number)       
         self.url = reverse('companydetail', args=(self.tickers[0].ticker,))
         # print(self.url)
         self.client = Client()
