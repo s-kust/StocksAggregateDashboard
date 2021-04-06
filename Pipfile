@@ -1,0 +1,22 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+django = "*"
+environ = "*"
+django-environ = "*"
+djangorestframework = "*"
+django-cors-headers = "*"
+django-mathfilters = "*"
+mysqlclient = "*"
+django-debug-toolbar = "*"
+model-bakery = "*"
+black = "*"
+selenium = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.9"
